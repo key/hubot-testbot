@@ -10,9 +10,6 @@
 
 module.exports = (robot) ->
 
-  robot.hear /ぬるぽ/i, (msg) ->
-    msg.send "ｶﾞｯ"
-
   # robot.hear /badger/i, (msg) ->
   #   msg.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
   #
@@ -23,8 +20,8 @@ module.exports = (robot) ->
   #   else
   #     msg.reply "Opening #{doorType} doors"
   #
-  # robot.hear /I like pie/i, (msg) ->
-  #   msg.emote "makes a freshly baked pie"
+  robot.hear /I like pie/i, (msg) ->
+    msg.emote "makes a freshly baked pie"
   #
   # lulz = ['lol', 'rofl', 'lmao']
   #
