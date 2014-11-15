@@ -17,6 +17,7 @@
 owner = "key"
 repo = "PhotoShare"
 endpoint = "/repos/" + owner + "/" +repo + "/issues"
+endpoint = "/repos/key/PhotoShare/issues"
 
 module.exports = (robot) ->
   
