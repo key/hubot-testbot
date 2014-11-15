@@ -25,7 +25,7 @@ module.exports = (robot) ->
     github = require("githubot")(robot)
 
     title = msg.match[0]
-    data = JSON.stringify({
+    data = {
       "title": title,
       "body": """
 # Objective
@@ -44,7 +44,7 @@ module.exports = (robot) ->
 # Blocker / Related issues
 ブロッカーや関連するIssueを箇条書する。
 """
-    })
+    }
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
       console.log issue
