@@ -10,6 +10,7 @@
 #   HUBOT_GITHUB_REPO
 #   HUBOT_GITHUB_USER_(.*)
 #   HUBOT_GITHUB_API
+#
 # Commands:
 #   hubot issue create <title> - Returns a issue link
 
@@ -19,7 +20,7 @@ endpoint = "/repos/" + owner + "/" +repo + "/issues"
 
 module.exports = (robot) ->
   
-  robot.respond /create issue (.*)/i, (msg) ->
+  robot.respond /issue create (.*)/i, (msg) ->
     title = msg.match[0]
     param = {
       "title": title,
