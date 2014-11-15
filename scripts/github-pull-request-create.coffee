@@ -53,7 +53,7 @@ module.exports = (robot) ->
     base_branch = "develop"
     data = {
       "title": title,
-      "body": issue_body,
+      "body": pr_body,
       "head": head_branch,
       "base": base_branch
     }
