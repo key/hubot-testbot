@@ -71,7 +71,7 @@ module.exports = (robot) ->
       body = JSON.parse(response.body)
       errors = body["errors"]
       error = errors[0]
-      error_msg = errors["message"]
+      error_msg = error["message"]
       console.log error
       console.log error_msg
       if response.statusCode == 422
