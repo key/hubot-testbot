@@ -22,7 +22,7 @@ module.exports = (robot) ->
   
   robot.respond /issue create (.*)/i, (msg) ->
     title = msg.match[0]
-    param = {
+    data = JSON.stringify({
       "title": title,
       "body": """
 # Objective
@@ -41,8 +41,8 @@ module.exports = (robot) ->
 # Blocker / Related issues
 ブロッカーや関連するIssueを箇条書する。
 """
-    }
+    })
     msg.http("https://api.github.com" + endpoint)
-      .post(param) (err, res, body) ->
+      .post(data) (err, res, body) ->
         msg.send(body)
     
