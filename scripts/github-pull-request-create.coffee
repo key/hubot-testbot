@@ -46,9 +46,6 @@ pr_body = """
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  
-  github.handleErrors (response) ->
-    console.log "Oh no! #{response.statusCode}!"
 
   robot.respond /pr create (.*) (.*)/i, (msg) ->
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
@@ -68,4 +65,8 @@ module.exports = (robot) ->
       title = issue["title"]
       url = issue["html_url"]
       number = issue["number"]
-      msg.send "Pull request ##{number} #{title} を作ったよ。 #{url}"
+      msg.send "Pull Request ##{number} #{title} を作ったよ。 #{url}"
+
+    github.handleErrors (response) ->
+      if response.statusCode == 422:
+        msg.send "#{head_branch}のPull Requestはもうあります。"
