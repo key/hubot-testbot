@@ -68,11 +68,8 @@ module.exports = (robot) ->
       msg.send "Pull Request ##{number} #{title} を作ったよ。 #{url}"
 
     github.handleErrors (response) ->
-      console.log response
-      console.log response.body
       body = JSON.parse(response.body)
-      console.log body
-      errors = response.body["errors"]
+      errors = body["errors"]
       console.log errors
       console.log errors[0]
       if response.statusCode == 422
