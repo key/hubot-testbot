@@ -43,6 +43,7 @@ module.exports = (robot) ->
 """
     })
     msg.http("https://api.github.com" + endpoint)
+      .header("Accept", "application/vnd.github.v3+json")
       .post(data) (err, res, body) ->
         msg.send(body)
     
