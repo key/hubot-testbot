@@ -68,5 +68,6 @@ module.exports = (robot) ->
       msg.send "Pull Request ##{number} #{title} を作ったよ。 #{url}"
 
     github.handleErrors (response) ->
+      console.log response
       if response.statusCode == 422
         msg.send "#{head_branch}のPull Requestはもうあります。"
