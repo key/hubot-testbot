@@ -47,6 +47,9 @@ pr_body = """
 module.exports = (robot) ->
   github = require("githubot")(robot)
   
+  github.handleErrors (response) ->
+    console.log "Oh no! #{response.statusCode}!"
+
   robot.respond /pr create (.*) (.*)/i, (msg) ->
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     owner = process.env.HUBOT_GITHUB_USER
