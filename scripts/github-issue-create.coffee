@@ -22,6 +22,8 @@ endpoint = "/repos/key/PhotoShare/issues"
 module.exports = (robot) ->
   
   robot.respond /issue create (.*)/i, (msg) ->
+    github = require("githubot")(robot)
+
     title = msg.match[0]
     data = JSON.stringify({
       "title": title,
@@ -43,8 +45,13 @@ module.exports = (robot) ->
 ブロッカーや関連するIssueを箇条書する。
 """
     })
-    msg.http("https://api.github.com" + endpoint)
-      .header("Accept", "application/vnd.github.v3+json")
-      .post(data) (err, res, body) ->
-        msg.send(body)
+    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
+      console.log issue
+
+   # msg.http("https://api.github.com" + endpoint)
+   #   .header("Accept", "application/vnd.github.v3+json")
+   #   .header("User-Agent", "hubot")
+   #   .post(data) (err, res, body) ->
+   #     msg.send(body)
     
