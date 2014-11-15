@@ -14,17 +14,12 @@
 # Commands:
 #   hubot issue create <title> - Returns a issue link
 
-owner = "key"
-repo = "PhotoShare"
-endpoint = "/repos/" + owner + "/" +repo + "/issues"
-endpoint = "/repos/key/PhotoShare/issues"
-
 module.exports = (robot) ->
   
   robot.respond /issue create (.*)/i, (msg) ->
     github = require("githubot")(robot)
 
-    title = msg.match[0]
+    title = msg.match[1]
     data = {
       "title": title,
       "body": """
@@ -46,12 +41,10 @@ module.exports = (robot) ->
 """
     }
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    owner = process.env.HUBOT_GITHUB_USER
+    repo = process.env.HUBOT_GITHUB_REPO
     github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
-      console.log issue
-
-   # msg.http("https://api.github.com" + endpoint)
-   #   .header("Accept", "application/vnd.github.v3+json")
-   #   .header("User-Agent", "hubot")
-   #   .post(data) (err, res, body) ->
-   #     msg.send(body)
-    
+      title = issue["title"]
+      url = issue["html_url"]
+      number = issue["number"]
+      msg.send "issue ##{number} #{title} を作ったよ。 #{url}"
