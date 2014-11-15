@@ -72,7 +72,6 @@ module.exports = (robot) ->
       errors = body["errors"]
       error = errors[0]
       error_msg = error["message"]
-      console.log error
-      console.log error_msg
+
       if response.statusCode == 422
-        msg.send "エラーが発生しました。詳細は次の通り。 #{error_msg}"
+        msg.send "エラーが発生しました。詳細は次の通り。\n#{error_msg}"
