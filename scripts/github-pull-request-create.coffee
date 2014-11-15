@@ -48,8 +48,12 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
   
   robot.respond /pr create (.*) (.*)/i, (msg) ->
+    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    owner = process.env.HUBOT_GITHUB_USER
+    repo = process.env.HUBOT_GITHUB_REPO
+
     title = msg.match[1]
-    head_branch = msg.match[2]
+    head_branch = "#{owner}:" + msg.match[2]
     base_branch = "develop"
     data = {
       "title": title,
@@ -57,9 +61,6 @@ module.exports = (robot) ->
       "head": head_branch,
       "base": base_branch
     }
-    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
     github.post "#{base_url}/repos/#{owner}/#{repo}/pulls", data, (issue) ->
       title = issue["title"]
       url = issue["html_url"]
