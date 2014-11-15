@@ -15,7 +15,7 @@
 #   hubot issue create <title> - Returns a issue link
 
 owner = "key"
-repo = "photoshare"
+repo = "PhotoShare"
 endpoint = "/repos/" + owner + "/" +repo + "/issues"
 
 module.exports = (robot) ->
