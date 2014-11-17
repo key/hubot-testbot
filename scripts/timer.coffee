@@ -1,3 +1,5 @@
+cronJob = require('cron').CronJob
+
 module.exports = (robot) ->
   cronjob = new cronJob('0 0 12 * * 1-5', () =>
     envelope =
