@@ -1,3 +1,14 @@
+# Description:
+#   Tweet clock periodically
+#
+# Dependencies:
+#   "cron"
+#   "time"
+#
+# Configuration:
+#   TZ
+#
+
 cronJob = require('cron').CronJob
 
 module.exports = (robot) ->
@@ -8,11 +19,3 @@ module.exports = (robot) ->
   )
 
   cronjob.start()
-
-  t = new cronJob('0 */5 * * * 1-5', () =>
-    envelope =
-      room: "#hubot-test"
-    robot.send envelope, "cronのテスト"
-  )
-
-  t.start()
