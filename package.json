@@ -18,7 +18,11 @@
     "hubot-thecat": "^1.0.1",
     "githubot": "*",
     "time": "*",
-    "cron": ">= 1.0.4"
+    "cron": ">= 1.0.4",
+    "htmlparser": ">= 1.7.6",
+    "soupselect": ">= 0.2.0",
+    "underscore": ">= 1.3.3",
+    "underscore.string": ">= 2.3.0"
   },
   "engines": {
     "node": "0.10.x"
