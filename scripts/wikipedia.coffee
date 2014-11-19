@@ -32,6 +32,7 @@ wikiMe = (robot, query, cb) ->
 
   robot.http(articleURL)
     .header('User-Agent', 'Hubot Wikipedia Script')
+    .header('Accept-Language', 'ja,en_US,en')
     .get() (err, res, body) ->
       return cb "Sorry, the tubes are broken." if err
 
