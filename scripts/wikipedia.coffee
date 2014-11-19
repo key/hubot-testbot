@@ -25,8 +25,8 @@ module.exports = (robot) ->
   robot.respond /(wiki)( me)? (.*)/i, (msg) ->
     wikiMe robot, msg.match[3], (text, url) ->
       msg.send "\"#{text}\" を調べたよ。"
-      msg.send "> #{text}"
       msg.send url if url
+      msg.send "> #{text}"
 
 wikiMe = (robot, query, cb) ->
   articleURL = makeArticleURL(makeTitleFromQuery(query))
