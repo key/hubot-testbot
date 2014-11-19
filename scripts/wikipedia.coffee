@@ -24,7 +24,7 @@ HTMLParser = require "htmlparser"
 module.exports = (robot) ->
   robot.respond /(wiki)( me)? (.*)/i, (msg) ->
     wikiMe robot, msg.match[3], (text, url) ->
-      msg.send text
+      msg.send "> #{text}"
       msg.send url if url
 
 wikiMe = (robot, query, cb) ->
@@ -75,7 +75,7 @@ findBestParagraph = (paragraphs) ->
     text
 
 makeArticleURL = (title) ->
-  "https://en.wikipedia.org/wiki/#{encodeURIComponent(title)}"
+  "https://ja.wikipedia.org/wiki/#{encodeURIComponent(title)}"
 
 makeTitleFromQuery = (query) ->
   strCapitalize(_s.trim(query).replace(/[ ]/g, '_'))
