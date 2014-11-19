@@ -23,8 +23,9 @@ HTMLParser = require "htmlparser"
 
 module.exports = (robot) ->
   robot.respond /(wiki)( me)? (.*)/i, (msg) ->
+    title = msg.match[3]
+    msg.send "\"#{title}\" を調べたよ。"
     wikiMe robot, msg.match[3], (text, url) ->
-      msg.send "\"#{text}\" を調べたよ。"
       msg.send url if url
       msg.send "> #{text}"
 
