@@ -86,7 +86,7 @@ module.exports = (robot) ->
       when 'github user'
         res.reply "Sorry, you haven't told me your GitHub username."
 
-  openIssue = (github, title, body) ->
+  openIssue = (msg, github, title, body) ->
     data = {
       "title": "[Draft] " + title,
       "body": body
@@ -114,7 +114,7 @@ module.exports = (robot) ->
       if err
         handleTokenError(msg, err)
       else
-        openIssue(github(robot, token: token), title, issue_body)
+        openIssue(msg, github(robot, token: token), title, issue_body)
 
   # task
   robot.respond /task create (.*)/i, (msg) ->
@@ -125,5 +125,5 @@ module.exports = (robot) ->
       if err
         handleTokenError(msg, err)
       else
-        openIssue(github(robot, token: token), title, task_body)
+        openIssue(msg, github(robot, token: token), title, task_body)
 
