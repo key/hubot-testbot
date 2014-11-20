@@ -126,4 +126,3 @@ module.exports = (robot) ->
         handleTokenError(msg, err)
       else
         openIssue(msg, github(robot, token: token), title, task_body)
-

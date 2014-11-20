@@ -3,6 +3,7 @@
 #
 # Dependencies:
 #   "githubot": "0.4.x"
+#   "hubot-github-identity": "0.9.1"
 #
 # Configuration:
 #   HUBOT_GITHUB_TOKEN
@@ -45,16 +46,22 @@ pr_body = """
 """
 
 module.exports = (robot) ->
-  github = require("githubot")(robot)
 
-  robot.respond /pr create (.*) (.*)/i, (msg) ->
+  # github identity error handler
+  handleTokenError = (res, err) ->
+    switch err.type
+      when 'redis'
+        res.reply "Oops: #{err}"
+      when 'github user'
+        res.reply "Sorry, you haven't told me your GitHub username."
+
+  createPR = (msg, github, title, body, head_branch) ->
+
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     owner = process.env.HUBOT_GITHUB_USER
     repo = process.env.HUBOT_GITHUB_REPO
 
-    title = msg.match[1]
-    head_branch = "#{owner}:" + msg.match[2]
-    base_branch = "develop"
+    base_branch = "develop"  # TODO 変更できるようにする
     data = {
       "title": "[Draft] " + title,
       "body": pr_body,
@@ -75,3 +82,17 @@ module.exports = (robot) ->
 
       if response.statusCode == 422
         msg.send "エラーが発生しました。詳細は次の通り。\n#{error_msg}"
+
+  # main
+  github = require("githubot")
+
+  robot.respond /pr create (.*) (.*)/i, (msg) ->
+    title = msg.match[1]
+    user = msg.envelope.user.name
+
+    robot.identity.findToken user, (err, token) ->
+      if err
+        handleTokenError(msg, err)
+      else
+        head_branch = "#{owner}:" + msg.match[2]
+        createPR(msg, github(robot, token: token), title, pr_body, head_branch)
