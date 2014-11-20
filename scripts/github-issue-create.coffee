@@ -3,8 +3,10 @@
 #
 # Dependencies:
 #   "githubot": "0.4.x"
+#   "hubot-github-identity": "0.9.x"
 #
 # Configuration:
+#   HUBOT_GITHUB_IDENTITY
 #   HUBOT_GITHUB_TOKEN
 #   HUBOT_GITHUB_USER
 #   HUBOT_GITHUB_REPO
@@ -75,35 +77,53 @@ task_body = """
 """
 
 module.exports = (robot) ->
-  github = require("githubot")(robot)
 
+  # github identity error handler
+  handleTokenError = (res, err) ->
+    switch err.type
+      when 'redis'
+        res.reply "Oops: #{err}"
+      when 'github user'
+        res.reply "Sorry, you haven't told me your GitHub username
+
+  openIssue = (github, title, body) ->
+    data = {
+      "title": "[Draft] " + title,
+      "body": body
+    }
+
+    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    owner = process.env.HUBOT_GITHUB_USER
+    repo = process.env.HUBOT_GITHUB_REPO
+
+    github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
+      title = issue["title"]
+      url = issue["html_url"]
+      number = issue["number"]
+      msg.send "issue ##{number} #{title} を作ったよ。 #{url}"
+
+  # main
+  github = require("githubot")
+
+  # issue
   robot.respond /issue create (.*)/i, (msg) ->
     title = msg.match[1]
-    data = {
-      "title": "[Draft] " + title,
-      "body": issue_body
-    }
-    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
-    github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
-      title = issue["title"]
-      url = issue["html_url"]
-      number = issue["number"]
-      msg.send "issue ##{number} #{title} を作ったよ。 #{url}"
+    user = msg.envelope.user.name
 
+    robot.identity.findToken user, (err, token) ->
+      if err
+        handleTokenError(msg, err)
+      else
+        openIssue(github(robot, token: token), title, issue_body)
+
+  # task
   robot.respond /task create (.*)/i, (msg) ->
-
     title = msg.match[1]
-    data = {
-      "title": "[Draft] " + title,
-      "body": task_body
-    }
-    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
-    github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
-      title = issue["title"]
-      url = issue["html_url"]
-      number = issue["number"]
-      msg.send "issue ##{number} #{title} を作ったよ。 #{url}"
+    user = msg.envelope.user.name
+
+    robot.identity.findToken user, (err, token) ->
+      if err
+        handleTokenError(msg, err)
+      else
+        openIssue(github(robot, token: token), title, task_body)
+
