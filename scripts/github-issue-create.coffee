@@ -84,7 +84,7 @@ module.exports = (robot) ->
       when 'redis'
         res.reply "Oops: #{err}"
       when 'github user'
-        res.reply "Sorry, you haven't told me your GitHub username
+        res.reply "Sorry, you haven't told me your GitHub username."
 
   openIssue = (github, title, body) ->
     data = {
