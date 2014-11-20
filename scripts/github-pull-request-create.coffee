@@ -47,6 +47,9 @@ pr_body = """
 
 module.exports = (robot) ->
 
+  owner = process.env.HUBOT_GITHUB_USER
+  repo = process.env.HUBOT_GITHUB_REPO
+
   # github identity error handler
   handleTokenError = (res, err) ->
     switch err.type
@@ -58,8 +61,6 @@ module.exports = (robot) ->
   createPR = (msg, github, title, body, head_branch) ->
 
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
 
     base_branch = "develop"  # TODO 変更できるようにする
     data = {
@@ -72,7 +73,7 @@ module.exports = (robot) ->
       title = issue["title"]
       url = issue["html_url"]
       number = issue["number"]
-      msg.send "Pull Request ##{number} #{title} を作ったよ。 #{url}"
+      msg.reply "Pull Request ##{number} #{title} を作ったよ。 #{url}"
 
     github.handleErrors (response) ->
       body = JSON.parse(response.body)
@@ -81,7 +82,7 @@ module.exports = (robot) ->
       error_msg = error["message"]
 
       if response.statusCode == 422
-        msg.send "エラーが発生しました。詳細は次の通り。\n#{error_msg}"
+        msg.reply "エラーが発生したよ。詳細は次の通りです。\n#{error_msg}"
 
   # main
   github = require("githubot")

@@ -100,7 +100,7 @@ module.exports = (robot) ->
       title = issue["title"]
       url = issue["html_url"]
       number = issue["number"]
-      msg.send "issue ##{number} #{title} を作ったよ。 #{url}"
+      msg.reply "issue ##{number} #{title} を作ったよ。 #{url}"
 
   # main
   github = require("githubot")
