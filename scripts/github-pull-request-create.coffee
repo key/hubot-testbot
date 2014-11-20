@@ -27,7 +27,7 @@ pr_body = """
 * なぜこの変更をするのか、
 * 課題は何か、
 * これによってどう解決されるのか、
-* など、この変更に対する概要を記載 
+* など、この変更に対する概要を記載
 
 # 影響範囲・ターゲットユーザ
 * 確認する箇所や対象者
@@ -56,7 +56,7 @@ module.exports = (robot) ->
     head_branch = "#{owner}:" + msg.match[2]
     base_branch = "develop"
     data = {
-      "title": title,
+      "title": "[Draft] " + title,
       "body": pr_body,
       "head": head_branch,
       "base": base_branch

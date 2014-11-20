@@ -76,11 +76,11 @@ task_body = """
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  
+
   robot.respond /issue create (.*)/i, (msg) ->
     title = msg.match[1]
     data = {
-      "title": title,
+      "title": "[Draft] " + title,
       "body": issue_body
     }
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
@@ -96,7 +96,7 @@ module.exports = (robot) ->
 
     title = msg.match[1]
     data = {
-      "title": title,
+      "title": "[Draft] " + title,
       "body": task_body
     }
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
