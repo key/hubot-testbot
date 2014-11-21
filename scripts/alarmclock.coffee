@@ -12,10 +12,33 @@
 cronJob = require('cron').CronJob
 
 module.exports = (robot) ->
-  cronjob = new cronJob('0 0 12 * * 1-5', () =>
+
+  # TODO 日の出の時間につぶやく
+  # TODO 天気をつぶやく
+
+  # 始業
+  beginning = new cronJob('0 0 8 * * 1-5', () =>
     envelope =
       room: "#general"
-    robot.send envelope, "お昼です。"
+    robot.send envelope, "朝だよ。"
   )
 
-  cronjob.start()
+  beginning.start()
+
+  # ランチ
+  lunch = new cronJob('0 0 12 * * 1-5', () =>
+    envelope =
+      room: "#general"
+    robot.send envelope, "お昼だよ。"
+  )
+
+  lunch.start()
+
+  # 終業
+  ending = new cronJob('0 0 18 * * 1-5', () =>
+    envelope =
+      room: "#general"
+    robot.send envelope, "夜だよ。"
+  )
+
+  ending.start()
