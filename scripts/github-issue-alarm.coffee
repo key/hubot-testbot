@@ -24,7 +24,7 @@ prs_body = """作業待ちのPull Requestを探すよ。
 module.exports = (robot) ->
   github = require("githubot")(robot)
 
-  fetchCollaborators = (owner, repo) ->
+  fetchCollaborators = (msg, owner, repo) ->
     col = {}
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
 
@@ -41,13 +41,16 @@ module.exports = (robot) ->
             title    = issue.title
             url      = issue.html_url
 
-            msg = "##{number} #{title} #{url}\n"
+            task = "##{number} #{title} #{url}"
 
             if username not in col
-              col[username] = ""
+              col[username] = []
 
-            col[username] += msg
+            col[username].push(task)
         console.log(col)
+
+        for key in Object.keys(col)
+          msg.send "#{key} の今日のタスクを送るね。\n" + col[key].join("\n")
 
 #          login = issue.assignee.login
 #          if login in col
@@ -62,5 +65,5 @@ module.exports = (robot) ->
     repo = process.env.HUBOT_GITHUB_REPO
 
     # initialize collaborators
-    fetchCollaborators(owner, repo)
+    fetchCollaborators(msg, owner, repo)
 
