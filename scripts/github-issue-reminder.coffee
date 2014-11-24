@@ -48,11 +48,13 @@ module.exports = (robot) ->
             col[username].push(task)
 
         for username in Object.keys(col)
-          if col[username].length
-            msg.send "#{username} の今日のタスクを送るね。\n" + col[username].join("\n")
-          else
-            msg.send "#{username} の今日のタスクはないよ。"
+          robot.identity.findUser username, (err, chatUser) ->
+            msg.send "Couldn't retrieve chat username by #{username}" if err
 
+            if col[username].length
+              msg.send "@{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
+            else
+              msg.send "@{chatUser}: アサイン済みのタスクは…1つもないよ。"
 
   robot.respond /todo/i, (msg) ->
 
