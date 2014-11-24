@@ -25,15 +25,17 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
 
   fetchCollaborators = (msg, owner, repo) ->
-    col = {}
-    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-
-    github.get "#{base_url}/repos/#{owner}/#{repo}/collaborators", (collaborators) ->
+    # コラボレータの取得
+    github.get "repos/#{owner}/#{repo}/collaborators", (collaborators) ->
+      col = {}
       for collaborator in collaborators
-        col[collaborator.login] = []
-      console.log(col)
+        username = collaborator.login
+        if username == 'mikacat'
+          continue
+        col[username] = []
 
-      github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
+      # イシューの取得
+      github.get "repos/#{owner}/#{repo}/issues", (issues) ->
         for issue in issues
           if issue.assignee
             username = issue.assignee.login
@@ -43,21 +45,15 @@ module.exports = (robot) ->
 
             task = "##{number} #{title} #{url}"
 
-            if username not in col
-              col[username] = []
-
             col[username].push(task)
-        console.log(col)
 
-        for key in Object.keys(col)
-          msg.send "#{key} の今日のタスクを送るね。\n" + col[key].join("\n")
+        for username in Object.keys(col)
+          msg.send "#{username} の今日のタスクを送るね。\n"
+          if col[username].length
+            msg.send col[username].join("\n")
+          else
+            msg.send "なかったよ。"
 
-#          login = issue.assignee.login
-#          if login in col
-#            msg = "#{issue.title} #{issue.html_url}"
-#            console.log(msg)
-#          else
-#            console.log("#{login} doesn't exists")
 
   robot.respond /todo/i, (msg) ->
 
