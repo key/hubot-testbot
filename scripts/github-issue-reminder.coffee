@@ -53,7 +53,6 @@ module.exports = (robot) ->
           else
             msg.send "#{username} の今日のタスクはないよ。"
 
-
   robot.respond /todo/i, (msg) ->
 
     owner = process.env.HUBOT_GITHUB_USER
