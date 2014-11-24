@@ -23,29 +23,29 @@ prs_body = """作業待ちのPull Requestを探すよ。
 module.exports = (robot) ->
   github = require("githubot")(robot)
 
-  fetchCollaborators = (owner, repo, cb) ->
+  fetchCollaborators = (owner, repo) ->
+    col = {}
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    github.get "#{base_url}/repos/#{owner}/#{repo}/collaborators", (collaborators) ->
-      cb(collaborators)
 
-  fetchIssues =->
-    console.log("check issues")
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
-    github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
-      console.log(issues)
+    github.get "#{base_url}/repos/#{owner}/#{repo}/collaborators", (collaborators) ->
+      for collaborator in collaborators
+        col[collaborator["login"]] = []
+
+      github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
+        for issue in issues
+          if issue["login"] in issue
+            msg = "#{issue.title} #{issue.html_url"
+            console.log(msg)
+          else
+            console.log("#{login} doesn't exists")
+
+
 
   robot.respond /todo/i, (msg) ->
-    col = {}
 
     owner = process.env.HUBOT_GITHUB_USER
     repo = process.env.HUBOT_GITHUB_REPO
 
     # initialize collaborators
-    fetchCollaborators(owner, repo, ((collaborators) ->
-      console.log(collaborators)
-      for collaborator in collaborators
-        col[collaborator["login"]] = []
-      console.log(col)
-      ))
+    fetchCollaborators(owner, repo)
 
