@@ -20,7 +20,7 @@ module.exports = (robot) ->
   beginning = new cronJob('0 0 8 * * 1-5', () =>
     envelope =
       room: "#general"
-    robot.send envelope, "@channel 朝だよ。"
+    robot.send envelope, "@channel: 朝だよ。"
   )
 
   beginning.start()
@@ -29,7 +29,7 @@ module.exports = (robot) ->
   lunch = new cronJob('0 0 12 * * 1-5', () =>
     envelope =
       room: "#general"
-    robot.send envelope, "@channel お昼だよ。"
+    robot.send envelope, "@channel: お昼だよ。"
   )
 
   lunch.start()
@@ -38,7 +38,7 @@ module.exports = (robot) ->
   ending = new cronJob('0 0 18 * * 1-5', () =>
     envelope =
       room: "#general"
-    robot.send envelope, "@channel 夜だよ。"
+    robot.send envelope, "@channel: 夜だよ。"
   )
 
   ending.start()
