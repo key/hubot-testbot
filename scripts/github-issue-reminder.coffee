@@ -52,9 +52,9 @@ module.exports = (robot) ->
             msg.send "Couldn't retrieve chat username by #{username}" if err
 
             if col[username].length
-              msg.send "#{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
+              msg.send "@{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
             else
-              msg.send "#{chatUser}: アサイン済みのタスクは…1つもないよ。"
+              msg.send "@{chatUser}: アサイン済みのタスクは…1つもないよ。"
 
   robot.respond /todo/i, (msg) ->
 
