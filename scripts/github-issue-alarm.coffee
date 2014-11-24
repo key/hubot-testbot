@@ -37,7 +37,7 @@ module.exports = (robot) ->
             msg = "#{issue.title} #{issue.html_url}"
             console.log(msg)
           else
-            console.log("#{login} doesn't exists")
+            console.log("#{issue.login} doesn't exists")
 
   robot.respond /todo/i, (msg) ->
 
