@@ -15,9 +15,6 @@
 # Commands:
 #   hubot pr create <title> <head> - Returns a PR link
 #
-# TODO:
-#   Using wiki content for PR create body message
-#
 
 pr_body = """
 # レビュワー
