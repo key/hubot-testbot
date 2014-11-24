@@ -24,6 +24,7 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
 
   fetchIssues =->
+    console.log("check issues")
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     owner = process.env.HUBOT_GITHUB_USER
     repo = process.env.HUBOT_GITHUB_REPO
