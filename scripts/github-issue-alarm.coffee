@@ -36,7 +36,16 @@ module.exports = (robot) ->
       console.log(issues)
 
   robot.respond /todo/i, (msg) ->
+    col = {}
+
     owner = process.env.HUBOT_GITHUB_USER
     repo = process.env.HUBOT_GITHUB_REPO
-    fetchCollaborators(owner, repo, ((collaborators) -> console.log(collaborators)))
+
+    # initialize collaborators
+    fetchCollaborators(owner, repo, ((collaborators) ->
+      console.log(collaborators)
+      for collaborator in collaborators
+        col[collaborator["login"] = []
+      console.log(col)
+      ))
 
