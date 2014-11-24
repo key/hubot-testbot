@@ -48,11 +48,10 @@ module.exports = (robot) ->
             col[username].push(task)
 
         for username in Object.keys(col)
-          msg.send "#{username} の今日のタスクを送るね。\n"
           if col[username].length
-            msg.send col[username].join("\n")
+            msg.send "#{username} の今日のタスクを送るね。\n" + col[username].join("\n")
           else
-            msg.send "なかったよ。"
+            msg.send "#{username} の今日のタスクはないよ。"
 
 
   robot.respond /todo/i, (msg) ->
