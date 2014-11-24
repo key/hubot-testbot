@@ -49,7 +49,9 @@ module.exports = (robot) ->
 
         for username in Object.keys(col)
           robot.identity.findUser username, (err, chatUser) ->
-            msg.send "Couldn't retrieve chat username by #{username}" if err
+            if err
+              msg.send "Couldn't retrieve chat username by #{username}" if err
+              continue
 
             if col[username].length
               msg.send "#{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
