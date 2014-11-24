@@ -16,6 +16,9 @@
 # Commands:
 #   hubot issue create <title> - Returns a issue link
 #
+# TODO:
+#   Using wiki page for creating issue / task body message.
+#
 
 issue_body = """
 # Environment
@@ -67,10 +70,8 @@ task_body = """
 このタスクはどうなったら完了か（タスクの達成条件）。
 * コマンドを1つ実行するだけで各環境用のEC2インスタンスが起動できる
 
-# TODO
-このタスクはどのような作業をするのか。（ざっくりと箇条書き。あとでサブタスクに分ける）
-* EC2のタグを元にIPアドレスの一覧を取得するコマンド作成
-* サーバのIPアドレス、ロール、環境名を引数に取る、インスタンス生成用コマンドの作成
+# Estimated time
+作業時間の見積もり。
 
 # Blocker / Related issues
 ブロッカーや関連するIssueを箇条書する。
@@ -101,6 +102,8 @@ module.exports = (robot) ->
       url = issue["html_url"]
       number = issue["number"]
       msg.reply "issue ##{number} #{title} を作ったよ。 #{url}"
+
+#   assignIssue = (msg, github, issue_number, slack_username) ->
 
   # main
   github = require("githubot")
