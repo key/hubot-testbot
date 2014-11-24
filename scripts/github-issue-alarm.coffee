@@ -36,8 +36,18 @@ module.exports = (robot) ->
       github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
         for issue in issues
           if issue.assignee
-            console.log(issue.assignee)
-            console.log(issue.assignee.login)
+            username = issue.assignee.login
+            number   = issue.number
+            title    = issue.title
+            url      = issue.html_url
+
+            msg = "##{number} #{title} #{url}\n"
+
+            if username not in col
+              col[username] = ""
+
+            col[username] += msg
+        console.log(col)
 
 #          login = issue.assignee.login
 #          if login in col
