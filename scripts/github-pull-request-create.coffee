@@ -17,12 +17,16 @@
 #
 
 pr_body = """
-# レビュワー
-* レビュワーとは別にマージして欲しい担当のアカウントを指定
-* iOS/Androidの共通仕様はレビュワーに相手側も入れる
-
-# 関連URL
+# Issue
 * Issue Number
+
+# Checklist
+
+- [ ] [国際化](https://github.com/key/PhotoShare/wiki/Checklist_I18N)
+- [ ] [対障害性](https://github.com/key/PhotoShare/wiki/Checklist_Durability)
+- [ ] [セキュリティ](https://github.com/key/PhotoShare/wiki/Checklist_Security)
+- [ ] [WebAPI](https://github.com/key/PhotoShare/wiki/Checklist_WebAPI)
+- [ ] [データモデル](https://github.com/key/PhotoShare/wiki/Checklist_DataModel)
 
 # 概要
 * なぜこの変更をするのか、
