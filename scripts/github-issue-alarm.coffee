@@ -33,11 +33,12 @@ module.exports = (robot) ->
 
       github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
         for issue in issues
-          if issue["login"] in issue
+          login = issue["login"]
+          if login in issue
             msg = "#{issue.title} #{issue.html_url}"
             console.log(msg)
           else
-            console.log("#{issue.login} doesn't exists")
+            console.log("#{login} doesn't exists")
 
   robot.respond /todo/i, (msg) ->
 
