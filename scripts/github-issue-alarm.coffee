@@ -45,7 +45,7 @@ module.exports = (robot) ->
     fetchCollaborators(owner, repo, ((collaborators) ->
       console.log(collaborators)
       for collaborator in collaborators
-        col[collaborator["login"] = []
+        col[collaborator["login"]] = []
       console.log(col)
       ))
 
