@@ -35,8 +35,9 @@ module.exports = (robot) ->
 
       github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
         for issue in issues
-          console.log(issue)
-          console.log(issue.assignee)
+          if issue.assignee
+            console.log(issue.assignee)
+            console.log(issue.assignee.login)
 
 #          login = issue.assignee.login
 #          if login in col
