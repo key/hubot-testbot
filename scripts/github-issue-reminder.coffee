@@ -51,12 +51,11 @@ module.exports = (robot) ->
           robot.identity.findUser username, (err, chatUser) ->
             if err
               msg.send "Couldn't retrieve chat username by #{username}" if err
-              continue
-
-            if col[username].length
-              msg.send "#{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
             else
-              msg.send "#{chatUser}: アサイン済みのタスクは…1つもないよ。"
+              if col[username].length
+                msg.send "#{chatUser}: アサイン済みタスクを送るね。\n" + col[username].join("\n")
+              else
+                msg.send "#{chatUser}: アサイン済みのタスクは…1つもないよ。"
 
   robot.respond /todo/i, (msg) ->
 
