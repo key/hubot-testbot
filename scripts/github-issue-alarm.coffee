@@ -6,8 +6,9 @@
 #   "hubot-github-identity": ">= 0.9.1"
 #
 # Configuration:
+#   HUBOT_GITHUB_API
 #   HUBOT_GITHUB_USER
-#   HUBOT_GITHUB_TOKEN
+#   HUBOT_GITHUB_REPO
 #   HUBOT_HOSTNAME
 #
 # Commands:
@@ -29,18 +30,20 @@ module.exports = (robot) ->
 
     github.get "#{base_url}/repos/#{owner}/#{repo}/collaborators", (collaborators) ->
       for collaborator in collaborators
-        col[collaborator["login"]] = []
+        col[collaborator.login] = []
+      console.log(col)
 
       github.get "#{base_url}/repos/#{owner}/#{repo}/issues", (issues) ->
         for issue in issues
           console.log(issue)
           console.log(issue.assignee)
-          login = issue.assignee.login
-          if login in col
-            msg = "#{issue.title} #{issue.html_url}"
-            console.log(msg)
-          else
-            console.log("#{login} doesn't exists")
+
+#          login = issue.assignee.login
+#          if login in col
+#            msg = "#{issue.title} #{issue.html_url}"
+#            console.log(msg)
+#          else
+#            console.log("#{login} doesn't exists")
 
   robot.respond /todo/i, (msg) ->
 
