@@ -88,4 +88,4 @@ module.exports = (robot) ->
   robot.respond /todo/i, (msg) ->
     envelope =
       room: "#general"
-    sendAssignedIssues(null, owner, repo)
+    sendAssignedIssues(msg, owner, repo)
