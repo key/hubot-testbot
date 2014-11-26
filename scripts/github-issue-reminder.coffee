@@ -15,6 +15,8 @@
 #   None
 #
 
+cronJob = require('cron').CronJob
+
 issues_body = """おはよう。今日のタスクを送るね。
 """
 
@@ -24,7 +26,7 @@ prs_body = """作業待ちのPull Requestを探すよ。
 module.exports = (robot) ->
   github = require("githubot")(robot)
 
-  fetchCollaborators = (msg, owner, repo) ->
+  fetchCollaborators = (robot, owner, repo) ->
     # コラボレータの取得
     github.get "repos/#{owner}/#{repo}/collaborators", (collaborators) ->
       col = {}
@@ -49,15 +51,22 @@ module.exports = (robot) ->
 
         for username in Object.keys(col)
           if col[username].length
-            msg.send "#{username} の今日のタスクを送るね。\n" + col[username].join("\n")
+            robot.send "#{username} のタスクを送るね。\n" + col[username].join("\n")
           else
-            msg.send "#{username} の今日のタスクはないよ。"
+            robot.send "#{username} のタスクはないよ。"
 
-  robot.respond /todo/i, (msg) ->
+#  robot.respond /todo/i, (msg) ->
+#
+#    owner = process.env.HUBOT_GITHUB_USER
+#    repo = process.env.HUBOT_GITHUB_REPO
+#
+#    # initialize collaborators
+#    fetchCollaborators(msg, owner, repo)
 
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
+  reminder = new cronJob('0 40 22 * * 1-5', () =>
+    envelope =
+      room: "#general"
+    fetchCollaborators(robot, owner, repo)
+  )
 
-    # initialize collaborators
-    fetchCollaborators(msg, owner, repo)
-
+  reminder.start()
