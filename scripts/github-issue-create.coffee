@@ -146,4 +146,4 @@ module.exports = (robot) ->
       if err
         handleTokenError(msg, err)
       else
-        postComment(githubot(robot, token: token))
+        postComment(github(robot, token: token))
