@@ -25,10 +25,11 @@ prs_body = """作業待ちのPull Requestを探すよ。
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
-  owner = process.env.HUBOT_GITHUB_USER
-  repo = process.env.HUBOT_GITHUB_REPO
 
-  fetchCollaborators = (robot, owner, repo) ->
+  sendAssignedIssues = (envelope) ->
+    owner = process.env.HUBOT_GITHUB_USER
+    repo = process.env.HUBOT_GITHUB_REPO
+
     # コラボレータの取得
     github.get "repos/#{owner}/#{repo}/collaborators", (collaborators) ->
       col = {}
@@ -53,22 +54,13 @@ module.exports = (robot) ->
 
         for username in Object.keys(col)
           if col[username].length
-            robot.send "#{username} のタスクを送るね。\n" + col[username].join("\n")
+            robot.send envelope, "#{username} のタスクを送るね。\n" + col[username].join("\n")
           else
-            robot.send "#{username} のタスクはないよ。"
-
-#  robot.respond /todo/i, (msg) ->
-#
-#    owner = process.env.HUBOT_GITHUB_USER
-#    repo = process.env.HUBOT_GITHUB_REPO
-#
-#    # initialize collaborators
-#    fetchCollaborators(msg, owner, repo)
+            robot.send envelope, "#{username} のタスクはないよ。"
 
   reminder = new cronJob('0 42 22 * * 1-5', () =>
     envelope =
       room: "#general"
-    fetchCollaborators(robot, owner, repo)
+    sendAssignedIssues(envelope)
   )
-
   reminder.start()
