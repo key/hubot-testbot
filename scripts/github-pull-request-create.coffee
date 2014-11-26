@@ -22,9 +22,11 @@ pr_body = """
 
 # Checklist
 
-- [ ] 多言語化が考慮されているか
-- [ ] タイムゾーンの切り替えが考慮されているか
-- [ ] ER図に問題がないか
+- [ ] [国際化](https://github.com/key/PhotoShare/wiki/Checklist_I18N)
+- [ ] [対障害性](https://github.com/key/PhotoShare/wiki/Checklist_Durability)
+- [ ] [セキュリティ](https://github.com/key/PhotoShare/wiki/Checklist_Security)
+- [ ] [WebAPI](https://github.com/key/PhotoShare/wiki/Checklist_WebAPI)
+- [ ] [データモデル](https://github.com/key/PhotoShare/wiki/Checklist_DataModel)
 
 # 概要
 * なぜこの変更をするのか、
