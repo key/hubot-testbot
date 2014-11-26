@@ -129,3 +129,20 @@ module.exports = (robot) ->
         handleTokenError(msg, err)
       else
         openIssue(msg, github(robot, token: token), title, task_body)
+
+  # create comment
+  robot.respond /issue comment ([0-9]+) (.*)$/i, (msg) ->
+    id   = msg.match[1]
+    body = msg.match[2]
+    url  = "repos/#{owner}/#{repo}/issues/#{id}/comments"
+    user = msg.envelope.user.name
+
+    postComment = (github) ->
+      github.post url, {body: body}, (comment) ->
+        msg.reply "コメントを投稿したよ。 #{comment.html_url}"
+
+    robot.identity.findToken user, (err, token) ->
+      if err
+        handleTokenError(msg, err)
+      else
+        postComment(githubot(robot, token: token))
