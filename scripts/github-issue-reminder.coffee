@@ -25,6 +25,8 @@ prs_body = """作業待ちのPull Requestを探すよ。
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
+  owner = process.env.HUBOT_GITHUB_USER
+  repo = process.env.HUBOT_GITHUB_REPO
 
   fetchCollaborators = (robot, owner, repo) ->
     # コラボレータの取得
