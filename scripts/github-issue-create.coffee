@@ -79,6 +79,9 @@ task_body = """
 
 module.exports = (robot) ->
 
+  owner = process.env.HUBOT_GITHUB_USER
+  repo = process.env.HUBOT_GITHUB_REPO
+
   # github identity error handler
   handleTokenError = (res, err) ->
     switch err.type
@@ -94,8 +97,6 @@ module.exports = (robot) ->
     }
 
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
-    owner = process.env.HUBOT_GITHUB_USER
-    repo = process.env.HUBOT_GITHUB_REPO
 
     github.post "#{base_url}/repos/#{owner}/#{repo}/issues", data, (issue) ->
       title = issue["title"]
