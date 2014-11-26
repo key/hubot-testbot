@@ -86,6 +86,4 @@ module.exports = (robot) ->
   reminder.start()
 
   robot.respond /todo/i, (msg) ->
-    envelope =
-      room: "#general"
-    sendAssignedIssues(msg, owner, repo)
+    sendAssignedIssues(msg.envelope, owner, repo)
