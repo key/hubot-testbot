@@ -58,7 +58,7 @@ module.exports = (robot) ->
           else
             robot.send envelope, "#{username} のタスクはないよ。"
 
-  reminder = new cronJob('0 42 22 * * 1-5', () =>
+  reminder = new cronJob('0 5 23 * * 1-5', () =>
     envelope =
       room: "#general"
     sendAssignedIssues(envelope)
