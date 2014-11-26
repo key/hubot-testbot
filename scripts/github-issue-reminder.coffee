@@ -65,7 +65,7 @@ module.exports = (robot) ->
 #    # initialize collaborators
 #    fetchCollaborators(msg, owner, repo)
 
-  reminder = new cronJob('0 40 22 * * 1-5', () =>
+  reminder = new cronJob('0 42 22 * * 1-5', () =>
     envelope =
       room: "#general"
     fetchCollaborators(robot, owner, repo)
